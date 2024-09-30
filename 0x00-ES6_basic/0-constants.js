@@ -1,6 +1,6 @@
 export function taskFirst() {
-  const task = 'I prefer const when I can.';
-  return task;
+  const taskMessage = 'I prefer const when I can.';
+  return taskMessage;
 }
 
 export function getLast() {
@@ -8,8 +8,8 @@ export function getLast() {
 }
 
 export function taskNext() {
-  let combination = 'But sometimes let';
-  combination += getLast();
+  let dynamicMessage = 'But sometimes let';
+  dynamicMessage += getLast();
 
-  return combination;
+  return dynamicMessage;
 }
