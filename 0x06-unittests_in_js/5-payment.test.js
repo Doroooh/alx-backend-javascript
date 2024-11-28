@@ -1,32 +1,29 @@
-const mocha = require('mocha');
-const { expect } = require('chai');
 const sinon = require('sinon');
+const { expect } = require('chai');
+const sendPaymentRequestToApi = require('./5-payment');
 
-// Import the function under test
-const processApiPayment = require('./5-payment');
+describe('sendPaymentRequestToApi', () => {
+  let bigBrother;
 
-describe('processApiPayment', function () {
-  let logSpy;
-
-  // Setup spy before each test
   beforeEach(() => {
-    logSpy = sinon.spy(console, 'log');
+    if (!bigBrother) {
+      bigBrother = sinon.spy(console);
+    }
   });
 
-  // Restore the original method after each test
   afterEach(() => {
-    logSpy.restore();
+    bigBrother.log.resetHistory();
   });
 
-  it('should log "The total is: 150" when inputs are 120 and 30', function () {
-    processApiPayment(120, 30);
-    expect(logSpy.calledOnceWithExactly('The total is: 150')).to.be.true;
-    expect(logSpy.calledOnce).to.be.true;
+  it('sendPaymentRequestToApi(100, 20) logs "The total is: 120" to the console', () => {
+    sendPaymentRequestToApi(100, 20);
+    expect(bigBrother.log.calledWith('The total is: 120')).to.be.true;
+    expect(bigBrother.log.calledOnce).to.be.true;
   });
 
-  it('should log "The total is: 50" when inputs are 25 and 25', function () {
-    processApiPayment(25, 25);
-    expect(logSpy.calledOnceWithExactly('The total is: 50')).to.be.true;
-    expect(logSpy.calledOnce).to.be.true;
+  it('sendPaymentRequestToApi(10, 10) logs "The total is: 20" to the console', () => {
+    sendPaymentRequestToApi(10, 10);
+    expect(bigBrother.log.calledWith('The total is: 20')).to.be.true;
+    expect(bigBrother.log.calledOnce).to.be.true;
   });
 });
