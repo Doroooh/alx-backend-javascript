@@ -1,15 +1,20 @@
 const express = require('express');
+
 const app = express();
-const port = 8080;
+const PORT = 7865;
 
-app.get('/', (req, res) => {
-  res.send('Hello! You have reached the payment gateway');
+app.get('/', (_, res) => {
+  res.send('Welcome to the payment system');
 });
 
-app.get('/checkout/:cartId([0-9]+)', (req, res) => {
-  res.send(`Available payment methods for cart number ${req.params.cartId}`);
+app.get('/cart/:id(\\d+)', (req, res) => {
+  const id = req.params.id;
+
+  res.send(`Payment methods for cart ${id}`);
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`API available on localhost port ${PORT}`);
 });
+
+module.exports = app;
