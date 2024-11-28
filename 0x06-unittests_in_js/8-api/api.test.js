@@ -1,19 +1,14 @@
 const request = require('request');
 const { expect } = require('chai');
 
-describe('API Integration Tests', () => {
-  describe('GET /', () => {
-    it('Should return status 200 and message "Welcome to the payment gateway"', (done) => {
-      const requestOptions = {
-        url: 'http://localhost:9000',
-        method: 'GET',
-      };
+describe('API integration test', () => {
+  const API_URL = 'http://localhost:7865';
 
-      request(requestOptions, function (error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        expect(body).to.equal('Welcome to the payment gateway');
-        done();
-      });
+  it('GET / returns correct response', (done) => {
+    request.get(`${API_URL}/`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Welcome to the payment system');
+      done();
     });
   });
 });
