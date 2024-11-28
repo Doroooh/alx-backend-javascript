@@ -1,31 +1,20 @@
-// Import necessary modules
-const mocha = require('mocha');
-const { expect } = require('chai');
 const sinon = require('sinon');
+const Utils = require('./utils');
+const { expect } = require('chai');
+const sendPaymentRequestToApi = require('./4-payment');
 
-// Import utilities and the function under test
-const calculations = require('./utils');
-const processTransaction = require('./3-payment');
+describe('sendPaymentRequestToApi', () => {
+  it('sendPaymentRequestToApi calls console.log with the right arguments', () => {
+    const bigBrother = sinon.spy(console);
+    const dummy = sinon.stub(Utils, 'calculateNumber');
 
-describe('processTransaction', function () {
-  it('should properly invoke calculateNumber', function () {
-    // Create a stub for the calculateNumber function
-    const calculateStub = sinon.stub(calculations, 'calculateNumber');
-    calculateStub.returns(15); // Mocking return value of the stub
-
-    // Spy on the console.log method
-    const consoleSpy = sinon.spy(console, 'log');
-
-    // Call the function under test
-    const result = processTransaction(50, 30);
-
-    // Assertions
-    expect(calculateStub.calledOnceWithExactly('SUM', 50, 30)).to.be.true;
-    expect(consoleSpy.calledOnceWithExactly('The total is: 15')).to.be.true;
-    expect(calculations.calculateNumber('SUM', 50, 30)).to.equal(result);
-
-    // Restore original methods
-    calculateStub.restore();
-    consoleSpy.restore();
+    dummy.returns(10);
+    sendPaymentRequestToApi(100, 20);
+    expect(dummy.calledWith('SUM', 100, 20)).to.be.true;
+    expect(dummy.callCount).to.be.equal(1);
+    expect(bigBrother.log.calledWith('The total is: 10')).to.be.true;
+    expect(bigBrother.log.callCount).to.be.equal(1);
+    dummy.restore();
+    bigBrother.log.restore();
   });
 });
